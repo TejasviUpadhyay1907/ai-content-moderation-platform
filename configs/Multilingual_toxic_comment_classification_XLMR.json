@@ -1,0 +1,68 @@
+{
+    "name": "Moderation_XLM_multilingual",
+    "n_gpu": 1,
+    "batch_size": 30,
+    "accumulate_grad_batches": 4,
+    "loss": "binary_cross_entropy",
+    "arch": {
+        "type": "XLMRoberta",
+        "args": {
+            "num_classes": 16,
+            "model_type": "xlm-roberta-base",
+            "model_name": "XLMRobertaForSequenceClassification",
+            "tokenizer_name": "XLMRobertaTokenizer"
+        }
+    },
+    "dataset": {
+        "type": "ModerationDataBias",
+        "args": {
+            "train_csv_file": [
+                "moderation_data/moderation-multilingual-comment-classification/moderation-comment-train-google-es-cleaned.csv",
+                "moderation_data/moderation-multilingual-comment-classification/moderation-comment-train-google-fr-cleaned.csv",
+                "moderation_data/moderation-multilingual-comment-classification/moderation-comment-train-google-it-cleaned.csv",
+                "moderation_data/moderation-multilingual-comment-classification/moderation-comment-train-google-pt-cleaned.csv",
+                "moderation_data/moderation-multilingual-comment-classification/moderation-comment-train-google-ru-cleaned.csv",
+                "moderation_data/moderation-multilingual-comment-classification/moderation-comment-train-google-tr-cleaned.csv",
+                "moderation_data/moderation-multilingual-comment-classification/moderation-comment-train.csv",
+                "moderation_data/moderation-multilingual-comment-classification/moderation-unintended-bias-train_only_es_clean.csv",
+                "moderation_data/moderation-multilingual-comment-classification/moderation-unintended-bias-train_only_fr_clean.csv",
+                "moderation_data/moderation-multilingual-comment-classification/moderation-unintended-bias-train_only_it_clean.csv",
+                "moderation_data/moderation-multilingual-comment-classification/moderation-unintended-bias-train_only_pt_clean.csv",
+                "moderation_data/moderation-multilingual-comment-classification/moderation-unintended-bias-train_only_ru_clean.csv",
+                "moderation_data/moderation-multilingual-comment-classification/moderation-unintended-bias-train_only_tr_clean.csv",
+                "moderation_data/moderation-unintended-bias-classification/train.csv"
+            ],
+            "test_csv_file": ["moderation_data/moderation-multilingual-comment-classification/validation.csv",
+                              "moderation_data/moderation-unintended-bias-classification/test_public_expanded.csv"],
+            "loss_weight": 0.75,
+            "classes": [
+                "toxicity",
+                "severe_toxicity",
+                "obscene",
+                "identity_attack",
+                "insult",
+                "threat",
+                "sexual_explicit"
+            ],
+            "identity_classes": [
+                "male",
+                "female",
+                "homosexual_gay_or_lesbian",
+                "christian",
+                "jewish",
+                "muslim",
+                "black",
+                "white",
+                "psychiatric_or_mental_illness"
+            ]
+        }
+    },
+    "optimizer": {
+        "type": "Adam",
+        "args": {
+            "lr": 3e-6,
+            "weight_decay": 3e-7,
+            "amsgrad": true
+        }
+    }
+}
